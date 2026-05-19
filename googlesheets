@@ -1,0 +1,96 @@
+// Google Apps Script code for Google Sheets
+// This script demonstrates how to make HTTP requests to your UNILINK backend API
+// Replace 'YOUR_BACKEND_URL_HERE' with your actual backend URL (e.g., 'https://your-app.herokuapp.com' or 'http://localhost:3000')
+
+function onOpen() {
+    var ui = SpreadsheetApp.getUi();
+    ui.createMenu('UniLink API')
+        .addItem('Test Connection', 'testConnection')
+        .addItem('Get Tutorials', 'getTutorials')
+        .addItem('Register User', 'registerUser')
+        .addToUi();
+}
+
+function testConnection() {
+    var url = 'YOUR_BACKEND_URL_HERE/api/auth/test'; // Replace with your backend URL + endpoint
+
+    var options = {
+        'method': 'get',
+        'headers': {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    try {
+        var response = UrlFetchApp.fetch(url, options);
+        var data = JSON.parse(response.getContentText());
+        SpreadsheetApp.getUi().alert('Connection successful: ' + JSON.stringify(data));
+    } catch (error) {
+        SpreadsheetApp.getUi().alert('Connection failed: ' + error.toString());
+    }
+}
+
+function getTutorials() {
+    var url = 'YOUR_BACKEND_URL_HERE/api/tutorials'; // Replace with your backend URL + endpoint
+
+    var options = {
+        'method': 'get',
+        'headers': {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    try {
+        var response = UrlFetchApp.fetch(url, options);
+        var tutorials = JSON.parse(response.getContentText());
+
+        // Clear existing data and write to sheet
+        var sheet = SpreadsheetApp.getActiveSheet();
+        sheet.clear();
+        sheet.appendRow(['Title', 'Description']);
+
+        tutorials.forEach(function(tutorial) {
+            sheet.appendRow([tutorial.title, tutorial.description]);
+        });
+
+        SpreadsheetApp.getUi().alert('Tutorials loaded successfully!');
+    } catch (error) {
+        SpreadsheetApp.getUi().alert('Failed to get tutorials: ' + error.toString());
+    }
+}
+
+function registerUser() {
+    var sheet = SpreadsheetApp.getActiveSheet();
+    var data = sheet.getDataRange().getValues();
+
+    if (data.length < 2) {
+        SpreadsheetApp.getUi().alert('Please enter user data in the sheet (Name, Email, Password)');
+        return;
+    }
+
+    var userData = {
+        name: data[1][0], // Assuming name in column A, row 2
+        email: data[1][1], // Email in column B
+        password: data[1][2] // Password in column C
+    };
+
+    var url = 'YOUR_BACKEND_URL_HERE/api/auth/register'; // Replace with your backend URL + endpoint
+
+    var options = {
+        'method': 'post',
+        'headers': {
+            'Content-Type': 'application/json'
+        },
+        'payload': JSON.stringify(userData)
+    };
+
+    try {
+        var response = UrlFetchApp.fetch(url, options);
+        var result = JSON.parse(response.getContentText());
+        SpreadsheetApp.getUi().alert('User registered: ' + JSON.stringify(result));
+    } catch (error) {
+        SpreadsheetApp.getUi().alert('Registration failed: ' + error.toString());
+    }
+}
+
+// Add more functions as needed for your specific use case

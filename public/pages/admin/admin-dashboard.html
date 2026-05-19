@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - UniLink</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1><i class="fas fa-crown"></i> UniLink Admin</h1>
+            </div>
+            <div class="navbar-links">
+                <span id="adminName" style="color: var(--text-color); margin-right: 20px;">Welcome, Admin</span>
+                <a href="#" id="logoutBtn" class="btn btn-secondary">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Dashboard -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.2);">
+                <i class="fas fa-user-shield" style="font-size: 3rem; margin-bottom: 10px;"></i>
+                <h3 style="margin: 0;" id="sidebarName">Administrator</h3>
+            </div>
+
+            <h3><i class="fas fa-tachometer-alt"></i> Admin Panel</h3>
+            <ul>
+                <li><a href="#dashboard" class="nav-link active" data-section="dashboard"><i class="fas fa-chart-line"></i> Overview</a></li>
+                <li><a href="#users" class="nav-link" data-section="users"><i class="fas fa-users"></i> User Management</a></li>
+                <li><a href="#tutorials" class="nav-link" data-section="tutorials"><i class="fas fa-book"></i> Tutorials</a></li>
+                <li><a href="#analytics" class="nav-link" data-section="analytics"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+                <li><a href="#settings" class="nav-link" data-section="settings"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Overview Section -->
+            <div id="dashboard-section" class="content-section">
+                <h2>Admin Dashboard Overview</h2>
+
+                <!-- Stats Cards -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px;">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 10px;">
+                        <i class="fas fa-users" style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>
+                        <h3 style="color: white; margin: 10px 0 5px 0; font-size: 2rem;" id="totalUsers">0</h3>
+                        <p style="margin: 0;">Total Users</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 25px; border-radius: 10px;">
+                        <i class="fas fa-check-circle" style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>
+                        <h3 style="color: white; margin: 10px 0 5px 0; font-size: 2rem;" id="activatedUsers">0</h3>
+                        <p style="margin: 0;">Activated Users</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 25px; border-radius: 10px;">
+                        <i class="fas fa-book" style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>
+                        <h3 style="color: white; margin: 10px 0 5px 0; font-size: 2rem;" id="totalTutorials">0</h3>
+                        <p style="margin: 0;">Total Tutorials</p>
+                    </div>
+                    <div style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; padding: 25px; border-radius: 10px;">
+                        <i class="fas fa-chart-line" style="font-size: 2rem; display: block; margin-bottom: 10px;"></i>
+                        <h3 style="color: white; margin: 10px 0 5px 0; font-size: 2rem;" id="totalProgress">0</h3>
+                        <p style="margin: 0;">Progress Records</p>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="user-card">
+                    <h3 style="margin-bottom: 20px;"><i class="fas fa-clock"></i> Recent Activity</h3>
+                    <div id="recentActivity">
+                        <p style="text-align: center; color: #666;">Loading recent activity...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Management Section -->
+            <div id="users-section" class="content-section" style="display: none;">
+                <h2>User Management</h2>
+
+                <!-- User Filters -->
+                <div style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="loadUsers('all')">All Users</button>
+                    <button class="btn btn-secondary" onclick="loadUsers('activated')">Activated</button>
+                    <button class="btn btn-secondary" onclick="loadUsers('pending')">Pending Activation</button>
+                </div>
+
+                <!-- Users Table -->
+                <div class="user-card">
+                    <h3 style="margin-bottom: 20px;"><i class="fas fa-users"></i> Users</h3>
+                    <div id="usersTable">
+                        <p style="text-align: center; color: #666;">Loading users...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tutorials Section -->
+            <div id="tutorials-section" class="content-section" style="display: none;">
+                <h2>Tutorial Management</h2>
+
+                <div class="user-card">
+                    <h3 style="margin-bottom: 20px;"><i class="fas fa-book"></i> Available Tutorials</h3>
+                    <div id="tutorialsList">
+                        <p style="text-align: center; color: #666;">Loading tutorials...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Section -->
+            <div id="analytics-section" class="content-section" style="display: none;">
+                <h2>Analytics & Reports</h2>
+
+                <div class="user-card">
+                    <h3 style="margin-bottom: 20px;"><i class="fas fa-chart-bar"></i> Platform Analytics</h3>
+                    <div id="analyticsData">
+                        <p style="text-align: center; color: #666;">Loading analytics...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="settings-section" class="content-section" style="display: none;">
+                <h2>Admin Settings</h2>
+
+                <div class="user-card">
+                    <h3 style="margin-bottom: 20px;"><i class="fas fa-cog"></i> System Settings</h3>
+                    <div id="settingsContent">
+                        <p style="text-align: center; color: #666;">Settings panel coming soon...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="margin-top: 30px;">
+        <div class="container">
+            <p>&copy; 2026 UniLink Admin Panel. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script src="../../js/admin-dashboard.js"></script>
+</body>
+</html>

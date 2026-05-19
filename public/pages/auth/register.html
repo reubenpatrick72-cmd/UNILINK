@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - UniLink</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1><i class="fas fa-graduation-cap"></i> UniLink</h1>
+            </div>
+            <div class="navbar-links">
+                <a href="../../index.html">Home</a>
+                <a href="login.html" class="btn btn-secondary">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Registration Form -->
+    <div class="form-container">
+        <h2>Create Your Account</h2>
+        <p style="text-align: center; margin-bottom: 30px; color: #666;"></p>
+        
+        <div class="alert alert-success" id="successAlert">
+            Account created successfully! Redirecting to login...
+        </div>
+        <div class="alert alert-error" id="errorAlert"></div>
+
+        <form id="registrationForm">
+            <div class="form-step" id="step1">
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <button type="button" class="btn btn-primary" id="continueEmailBtn" style="width: 100%; padding: 14px;">Continue with Email</button>
+
+                <div style="text-align: center; margin: 20px 0; color: #888;">or</div>
+
+                <button type="button" class="btn btn-secondary" id="googleSignUpBtn" style="width: 100%; padding: 14px; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                    <i class="fab fa-google"></i> Sign up with Google
+                </button>
+            </div>
+
+            <div class="form-step" id="step2" style="display: none;">
+                <div class="form-group">
+                    <label for="firstName">First Name *</label>
+                    <input type="text" id="firstName" name="firstName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">Last Name *</label>
+                    <input type="text" id="lastName" name="lastName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" placeholder="254712345678" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password *</label>
+                    <input type="password" id="password" name="password" required minlength="4">
+                    <small style="color: #666; display: block; margin-top: 5px;">Minimum 4 characters</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password *</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+
+                <div class="form-group checkbox">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">I agree to the Terms & Conditions and Privacy Policy</label>
+                </div>
+
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button type="button" class="btn btn-secondary" id="backToStep1Btn">Back</button>
+                    <button type="button" class="btn btn-primary" id="continueProfileBtn" style="flex: 1;">Continue</button>
+                </div>
+            </div>
+
+            <div class="form-step" id="step3" style="display: none;">
+                <h3 style="margin-bottom: 20px; color: #333;">Verify Your Contact Information</h3>
+                <p style="margin-bottom: 20px; color: #666;">We'll send a verification code to confirm your phone number and email address.</p>
+
+                <div class="form-group">
+                    <label style="margin-bottom: 15px; display: block; font-weight: 600; color: #333;">How would you like to receive your verification code? *</label>
+                    <div class="radio-group" style="display: flex; flex-direction: column; gap: 12px;">
+                        <label style="display: flex; align-items: center; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; cursor: pointer; transition: all 0.3s;">
+                            <input type="radio" name="otpMethod" value="email" checked style="margin-right: 10px; cursor: pointer;"> 
+                            <span style="flex: 1;">
+                                <strong>Email</strong><br>
+                                <small id="emailDisplay" style="color: #999;"></small>
+                            </span>
+                        </label>
+                        <label style="display: flex; align-items: center; padding: 12px; border: 2px solid #e0e0e0; border-radius: 6px; cursor: pointer; transition: all 0.3s;">
+                            <input type="radio" name="otpMethod" value="phone" style="margin-right: 10px; cursor: pointer;"> 
+                            <span style="flex: 1;">
+                                <strong>SMS</strong><br>
+                                <small id="phoneDisplay" style="color: #999;"></small>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 25px;">
+                    <button type="button" class="btn btn-secondary" id="backToStep2Btn">Back</button>
+                    <button type="button" class="btn btn-primary" id="sendOtpBtn" style="flex: 1;">Send Verification Code</button>
+                </div>
+            </div>
+
+            <div class="form-step" id="step4" style="display: none;">
+                <h3 style="margin-bottom: 10px; color: #333;">Enter Verification Code</h3>
+                <p id="otpInfo" style="margin-bottom: 20px; color: #666; font-size: 14px;"></p>
+
+                <div class="form-group">
+                    <label for="otpCode">6-Digit Verification Code *</label>
+                    <input type="text" id="otpCode" name="otpCode" placeholder="000000" maxlength="6" inputmode="numeric" pattern="[0-9]{6}" required>
+                    <small style="color: #666; display: block; margin-top: 5px;">Check your email or phone for the code</small>
+                </div>
+
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px;">
+                    <button type="button" class="btn btn-secondary" id="backToStep3Btn">Back</button>
+                    <button type="button" class="btn btn-primary" id="verifyOtpBtn" style="flex: 1;">Verify & Create Account</button>
+                </div>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Didn't receive the code?</p>
+                    <button type="button" class="btn btn-link" id="resendOtpBtn">Resend Code</button>
+                </div>
+            </div>
+        </form>
+
+        <p style="text-align: center; margin-top: 20px;">
+            Already have an account? <a href="login.html" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Login here</a>
+        </p>
+    </div>
+
+    <!-- Footer -->
+    <footer style="margin-top: 50px;">
+        <div class="container">
+            <p>&copy; 2026 UniLink. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script src="../../js/register.js"></script>
+</body>
+</html>

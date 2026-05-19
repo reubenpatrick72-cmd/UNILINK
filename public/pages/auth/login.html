@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - UniLink</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1><i class="fas fa-graduation-cap"></i> UniLink</h1>
+            </div>
+            <div class="navbar-links">
+                <a href="../../index.html">Home</a>
+                <a href="register.html" class="btn btn-secondary">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Form -->
+    <div class="form-container">
+        <h2>Login to Your Account</h2>
+        <p style="text-align: center; margin-bottom: 30px; color: #666;">Welcome back!</p>
+        
+        <div class="alert alert-success" id="successAlert">
+            Login successful! Redirecting...
+        </div>
+        <div class="alert alert-error" id="errorAlert"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password *</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="form-group checkbox">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember">Remember me</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; padding: 14px;">Login</button>
+        </form>
+
+        <p style="text-align: center; margin-top: 20px;">
+            Don't have an account? <a href="register.html" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Register here</a>
+        </p>
+        <p style="text-align: center; margin-top: 10px;">
+            <a href="#" style="color: var(--primary-color); text-decoration: none; font-size: 0.9rem;">Forgot Password?</a>
+        </p>
+    </div>
+
+    <!-- Footer -->
+    <footer style="margin-top: 50px;">
+        <div class="container">
+            <p>&copy; 2026 UniLink. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script src="../../js/login.js"></script>
+</body>
+</html>

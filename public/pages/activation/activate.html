@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activate Account - UniLink</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1><i class="fas fa-graduation-cap"></i> UniLink</h1>
+            </div>
+            <div class="navbar-links">
+                <a href="../../index.html">Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Payment/Activation Container -->
+    <div class="payment-container">
+        <div class="payment-card">
+            <div class="payment-header">
+                <h2><i class="fas fa-lock"></i> Activate Your Account</h2>
+                <p style="color: #666; margin-top: 10px;">Complete your account activation to access all tutorials</p>
+            </div>
+
+            <div class="alert alert-success" id="successAlert">
+                Payment received! Your account has been activated. Redirecting to dashboard...
+            </div>
+            <div class="alert alert-error" id="errorAlert"></div>
+
+            <!-- Payment Summary -->
+            <div class="payment-summary">
+                <div class="summary-item">
+                    <span><i class="fas fa-book"></i> Full Access to Tutorials</span>
+                    <span>KES 150</span>
+                </div>
+                <div class="summary-item">
+                    <span><i class="fas fa-users"></i> Community Access</span>
+                    <span>Free</span>
+                </div>
+                <div class="summary-item">
+                    <span><i class="fas fa-shield-alt"></i> Lifetime Access</span>
+                    <span>Free</span>
+                </div>
+                <div class="summary-item total">
+                    <span>Total Amount to Pay</span>
+                    <span>KES 150</span>
+                </div>
+            </div>
+
+            <!-- What's Included -->
+            <div style="background-color: #f0f9ff; padding: 20px; border-radius: 5px; margin-bottom: 30px; border-left: 4px solid var(--primary-color);">
+                <h4 style="margin-bottom: 15px; color: var(--primary-color);"><i class="fas fa-check-circle"></i> Your Access Includes:</h4>
+                <ul style="list-style-position: inside; line-height: 1.8; color: var(--text-color);">
+                    <li>Complete Amazon FBA tutorials</li>
+                    <li>Shopify store setup guides</li>
+                    <li>Dropshipping masterclass</li>
+                    <li>Freelancing strategies</li>
+                    <li>Live community support</li>
+                    <li>Monthly webinars & workshops</li>
+                </ul>
+            </div>
+
+            <!-- Payment Instructions -->
+            <div class="form-group">
+                <label style="font-size: 1.1rem; color: var(--dark-color);"><i class="fas fa-mobile-alt"></i> Mpesa Payment Instructions</label>
+                <div style="background-color: #fef3c7; padding: 15px; border-radius: 5px; margin-top: 10px;">
+                    <p style="margin: 0;"><strong>Step 1:</strong> Enter your phone number below</p>
+                    <p style="margin: 10px 0 0 0;"><strong>Step 2:</strong> Click "Pay with Mpesa"</p>
+                    <p style="margin: 10px 0 0 0;"><strong>Step 3:</strong> You'll receive an STK prompt on your phone</p>
+                    <p style="margin: 10px 0 0 0;"><strong>Step 4:</strong> Enter your Mpesa PIN to complete payment</p>
+                </div>
+            </div>
+
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label for="methodName">Payment Method *</label>
+                    <select id="methodName" name="methodName" required>
+                        <option value="paybill">Paybill</option>
+                        <option value="till">Till</option>
+                    </select>
+                    <small style="color: #666; display: block; margin-top: 5px;">Choose whether to pay with a Paybill or Till number.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="accountNumber">Paybill / Till Number *</label>
+                    <input type="text" id="accountNumber" name="accountNumber" placeholder="Enter paybill or till number" required>
+                    <small style="color: #666; display: block; margin-top: 5px;">Enter the paybill or till number for the payment method you want to use.</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number (Mpesa) *</label>
+                    <input type="tel" id="phone" name="phone" placeholder="254712345678" required pattern="254[0-9]{9}">
+                    <small style="color: #666; display: block; margin-top: 5px;">Format: 254712345678</small>
+                </div>
+
+                <button type="submit" class="btn btn-success" style="width: 100%; padding: 14px; font-size: 1rem; margin-bottom: 15px;">
+                    <i class="fas fa-mobile-alt"></i> Pay KES 150 with Mpesa
+                </button>
+            </form>
+
+            <div class="loading" id="loadingDiv">
+                <div class="spinner"></div>
+                <p style="margin-top: 15px; color: var(--text-color);">Processing payment... Please check your phone for the STK prompt</p>
+            </div>
+        </div>
+
+        <!-- Security Info -->
+        <div style="background-color: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); margin-bottom: 30px;">
+            <h3 style="margin-bottom: 15px;"><i class="fas fa-shield-alt" style="color: var(--primary-color);"></i> Secure Payment</h3>
+            <p style="color: var(--text-color); line-height: 1.8;">
+                Your payment is processed through Safaricom's Mpesa payment gateway, which is secure and PCI-DSS compliant. 
+                Your personal and financial information is protected with industry-standard encryption. UniLink does not store your 
+                Mpesa PIN or full card details.
+            </p>
+        </div>
+
+        <!-- FAQ -->
+        <div style="background-color: white; padding: 25px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+            <h3 style="margin-bottom: 15px;"><i class="fas fa-question-circle" style="color: var(--primary-color);"></i> Frequently Asked Questions</h3>
+            
+            <div style="margin-bottom: 20px;">
+                <strong style="color: var(--dark-color);">What if I don't receive the STK prompt?</strong>
+                <p style="color: var(--text-color); margin-top: 8px;">If you don't receive the prompt within 30 seconds, try again. Ensure your phone has active Mpesa services.</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong style="color: var(--dark-color);">Can I get a refund?</strong>
+                <p style="color: var(--text-color); margin-top: 8px;">Yes, you can request a refund within 7 days of activation by contacting support@unilink.co.ke</p>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <strong style="color: var(--dark-color);">Is the activation fee a one-time payment?</strong>
+                <p style="color: var(--text-color); margin-top: 8px;">Yes! After paying KES 150, you get lifetime access to all content and features.</p>
+            </div>
+
+            <div>
+                <strong style="color: var(--dark-color);">What payment methods do you accept?</strong>
+                <p style="color: var(--text-color); margin-top: 8px;">Currently we accept Mpesa. We'll add more payment options soon.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="margin-top: 50px;">
+        <div class="container">
+            <p>&copy; 2026 UniLink. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/utils.js"></script>
+    <script src="../../js/payment.js"></script>
+</body>
+</html>
