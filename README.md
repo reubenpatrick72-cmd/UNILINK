@@ -18,7 +18,6 @@ A comprehensive platform for university students to learn online entrepreneurshi
 - M-Pesa API credentials (for payment processing)
 
 ## Installation
-
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
@@ -58,7 +57,7 @@ A comprehensive platform for university students to learn online entrepreneurshi
 
 ### For Students
 
-1. **Register**: Visit the homepage and click "Register"
+1. **Register**: Visit the homepage put your details required and click on the"Register" button
 2. **Activate Account**: Pay KES 150 via M-Pesa to activate your account
 3. **Access Tutorials**: Browse and complete tutorials in your dashboard
 4. **Track Progress**: Monitor your learning progress
@@ -87,10 +86,10 @@ A comprehensive platform for university students to learn online entrepreneurshi
 - `GET /api/progress` - Get user progress
 
 ### Admin (Requires Admin Token)
-- `GET /api/admin/users` - Get all users
+- `GET /api/admin/users` - have access to all registered users
 - `GET /api/admin/stats` - Get platform statistics
-- `PUT /api/admin/users/:id/activate` - Activate user account
-- `DELETE /api/admin/users/:id` - Delete user account
+- `PUT /api/admin/users/:id/activate` - Activate users account by giving them access to their account
+- `DELETE /api/admin/users/:id` - being able to Delete user account and remove them from the site
 
 ## File Structure
 
