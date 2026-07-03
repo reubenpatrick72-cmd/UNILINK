@@ -20,6 +20,10 @@ const adminRoutes = require('./routes/admin');
 const paymentRoutes = require('./routes/payment');
 const paymentMethodsRoutes = require('./routes/paymentMethods');
 const progressRoutes = require('./routes/progress');
+const notesRoutes = require('./routes/notes');
+const purchasesRoutes = require('./routes/purchases');
+const reviewsRoutes = require('./routes/reviews');
+const sellerRoutes = require('./routes/seller');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -49,6 +53,10 @@ app.use('/api/admin', adminRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/payment-methods', paymentMethodsRoutes);
 app.use('/api/progress', progressRoutes);
+app.use('/api/notes', notesRoutes);
+app.use('/api/purchases', purchasesRoutes);
+app.use('/api/reviews', reviewsRoutes);
+app.use('/api/seller', sellerRoutes);
 
 // Initialize sample tutorials
 const initializeTutorials = async() => {

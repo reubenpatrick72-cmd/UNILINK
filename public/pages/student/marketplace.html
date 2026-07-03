@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notes Marketplace - UNILINK</title>
+  <link rel="stylesheet" href="../../css/styles.css">
+  <link rel="stylesheet" href="../../css/marketplace.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <i class="fas fa-book"></i> UNILINK Marketplace
+      </div>
+      <ul class="nav-menu">
+        <li><a href="../../index.html">Home</a></li>
+        <li><a href="../student/dashboard.html">Dashboard</a></li>
+        <li><a href="#" class="active">Marketplace</a></li>
+        <li><a href="../student/payment-methods.html">My Purchases</a></li>
+        <li><a href="#" onclick="logout()">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="marketplace-container">
+    <!-- Sidebar Filters -->
+    <aside class="filters-sidebar">
+      <div class="filter-section">
+        <h3>Search</h3>
+        <input type="text" id="searchInput" placeholder="Search notes..." class="search-input">
+      </div>
+
+      <div class="filter-section">
+        <h3>University</h3>
+        <input type="text" id="universityFilter" placeholder="Filter by university" class="filter-input">
+      </div>
+
+      <div class="filter-section">
+        <h3>Course</h3>
+        <select id="courseFilter" class="filter-select">
+          <option value="">All Courses</option>
+        </select>
+      </div>
+
+      <div class="filter-section">
+        <h3>Unit</h3>
+        <select id="unitFilter" class="filter-select">
+          <option value="">All Units</option>
+        </select>
+      </div>
+
+      <div class="filter-section">
+        <h3>Category</h3>
+        <select id="categoryFilter" class="filter-select">
+          <option value="">All Categories</option>
+          <option value="lecture_notes">Lecture Notes</option>
+          <option value="past_papers">Past Papers</option>
+          <option value="revision_guide">Revision Guide</option>
+          <option value="summary">Summary</option>
+        </select>
+      </div>
+
+      <div class="filter-section">
+        <h3>Sort By</h3>
+        <select id="sortFilter" class="filter-select">
+          <option value="newest">Newest</option>
+          <option value="rating">Top Rated</option>
+          <option value="downloads">Most Downloaded</option>
+        </select>
+      </div>
+
+      <button id="applyFiltersBtn" class="apply-btn">Apply Filters</button>
+      <button id="clearFiltersBtn" class="clear-btn">Clear Filters</button>
+    </aside>
+
+    <!-- Notes Grid -->
+    <main class="marketplace-main">
+      <div class="marketplace-header">
+        <h1>Study Notes Marketplace</h1>
+        <p>Browse, search, and purchase study notes from verified sellers</p>
+      </div>
+
+      <!-- Results Info -->
+      <div class="results-info">
+        <span id="resultsCount">Loading notes...</span>
+      </div>
+
+      <!-- Notes Grid -->
+      <div class="notes-grid" id="notesGrid">
+        <!-- Notes will be loaded here -->
+        <div class="loading">
+          <i class="fas fa-spinner fa-spin"></i> Loading notes...
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination" id="paginationContainer">
+        <!-- Pagination buttons will be generated here -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Note Detail Modal -->
+  <div id="noteModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="modal-body">
+        <div class="note-detail-container">
+          <div class="note-detail-left">
+            <h2 id="modalTitle"></h2>
+            <div class="note-meta">
+              <span class="seller-info">
+                <i class="fas fa-user"></i>
+                <span id="modalSellerName"></span>
+              </span>
+              <span class="seller-rating">
+                <i class="fas fa-star"></i>
+                <span id="modalSellerRating">0</span>/5
+              </span>
+            </div>
+
+            <div class="note-details">
+              <p><strong>Course:</strong> <span id="modalCourse"></span></p>
+              <p><strong>Unit:</strong> <span id="modalUnit"></span></p>
+              <p><strong>University:</strong> <span id="modalUniversity"></span></p>
+              <p><strong>Category:</strong> <span id="modalCategory"></span></p>
+              <p><strong>Type:</strong> <span id="modalFileType"></span></p>
+            </div>
+
+            <div class="note-description">
+              <h3>Description</h3>
+              <p id="modalDescription"></p>
+            </div>
+
+            <div class="note-sample">
+              <h3>Sample Preview</h3>
+              <div id="modalSampleContent" class="sample-content"></div>
+              <p class="sample-notice">This is a preview only. Purchase to access full content.</p>
+            </div>
+
+            <div class="note-stats">
+              <div class="stat">
+                <span class="stat-number" id="modalDownloads">0</span>
+                <span class="stat-label">Downloads</span>
+              </div>
+              <div class="stat">
+                <span class="stat-number" id="modalViews">0</span>
+                <span class="stat-label">Views</span>
+              </div>
+              <div class="stat">
+                <span class="stat-number" id="modalReviews">0</span>
+                <span class="stat-label">Reviews</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="note-detail-right">
+            <div class="purchase-section">
+              <div class="price-section">
+                <span class="price-label">Price</span>
+                <span class="price-amount" id="modalPrice">Ksh 50</span>
+              </div>
+
+              <button id="purchaseBtn" class="purchase-btn">
+                <i class="fas fa-shopping-cart"></i> Purchase & Download
+              </button>
+
+              <div class="purchase-info">
+                <p><i class="fas fa-check"></i> 30 days access</p>
+                <p><i class="fas fa-check"></i> 10 downloads</p>
+                <p><i class="fas fa-check"></i> Instant access after payment</p>
+              </div>
+
+              <button id="viewSellerProfileBtn" class="seller-profile-btn">
+                View Seller Profile
+              </button>
+            </div>
+
+            <div class="reviews-section">
+              <h3>Reviews (<span id="totalReviewsCount">0</span>)</h3>
+              <div class="review-stats">
+                <div class="rating-bar">
+                  <span>5 <i class="fas fa-star"></i></span>
+                  <div class="bar"><span class="fill" id="rating5"></span></div>
+                </div>
+                <div class="rating-bar">
+                  <span>4 <i class="fas fa-star"></i></span>
+                  <div class="bar"><span class="fill" id="rating4"></span></div>
+                </div>
+                <div class="rating-bar">
+                  <span>3 <i class="fas fa-star"></i></span>
+                  <div class="bar"><span class="fill" id="rating3"></span></div>
+                </div>
+                <div class="rating-bar">
+                  <span>2 <i class="fas fa-star"></i></span>
+                  <div class="bar"><span class="fill" id="rating2"></span></div>
+                </div>
+                <div class="rating-bar">
+                  <span>1 <i class="fas fa-star"></i></span>
+                  <div class="bar"><span class="fill" id="rating1"></span></div>
+                </div>
+              </div>
+
+              <div id="reviewsList" class="reviews-list">
+                <!-- Reviews will be loaded here -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Seller Profile Modal -->
+  <div id="sellerModal" class="modal">
+    <div class="modal-content seller-modal">
+      <span class="close">&times;</span>
+      <div class="modal-body">
+        <div class="seller-profile">
+          <h2 id="sellerName"></h2>
+          <div class="seller-stats">
+            <div class="stat-box">
+              <span id="sellerNotesCount">0</span>
+              <p>Notes Uploaded</p>
+            </div>
+            <div class="stat-box">
+              <span id="sellerDownloadsCount">0</span>
+              <p>Total Downloads</p>
+            </div>
+            <div class="stat-box">
+              <span id="sellerRatingInfo">0</span>
+              <p>Average Rating</p>
+            </div>
+          </div>
+          <p id="sellerBio"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/marketplace.js"></script>
+</body>
+</html>

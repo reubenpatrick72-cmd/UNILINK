@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seller Dashboard - UNILINK</title>
+  <link rel="stylesheet" href="../../css/styles.css">
+  <link rel="stylesheet" href="../../css/marketplace.css">
+  <link rel="stylesheet" href="../../css/seller.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <i class="fas fa-store"></i> UNILINK Seller Dashboard
+      </div>
+      <ul class="nav-menu">
+        <li><a href="../student/dashboard.html">Home</a></li>
+        <li><a href="marketplace.html">Marketplace</a></li>
+        <li><a href="#" class="active">Seller Dashboard</a></li>
+        <li><a href="payment-methods.html">Payment Methods</a></li>
+        <li><a href="#" onclick="logout()">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="marketplace-container">
+    <main class="marketplace-main">
+      <div class="marketplace-header">
+        <h1>Seller Center</h1>
+        <p>Upload notes, manage listings, and track your sales performance.</p>
+      </div>
+
+      <section class="seller-overview">
+        <div class="overview-card">
+          <h3>Total Notes</h3>
+          <p id="sellerTotalNotes">0</p>
+        </div>
+        <div class="overview-card">
+          <h3>Completed Sales</h3>
+          <p id="sellerSalesCount">0</p>
+        </div>
+        <div class="overview-card">
+          <h3>Total Revenue</h3>
+          <p id="sellerRevenue">Ksh 0</p>
+        </div>
+        <div class="overview-card">
+          <h3>Average Rating</h3>
+          <p id="sellerAvgRating">0</p>
+        </div>
+      </section>
+
+      <section class="seller-actions">
+        <div class="seller-upload-card">
+          <h2>Upload New Note</h2>
+          <form id="uploadNoteForm">
+            <div class="form-group">
+              <label for="noteTitle">Title</label>
+              <input type="text" id="noteTitle" name="title" required>
+            </div>
+            <div class="form-group">
+              <label for="noteDescription">Description</label>
+              <textarea id="noteDescription" name="description" rows="4" required></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="noteCourse">Course</label>
+                <input type="text" id="noteCourse" name="course" required>
+              </div>
+              <div class="form-group">
+                <label for="noteUnit">Unit</label>
+                <input type="text" id="noteUnit" name="unit" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="noteUniversity">University</label>
+              </div>
+              <div class="form-group">
+                <label for="noteCategory">Category</label>
+                <select id="noteCategory" name="category" required>
+                  <option value="lecture_notes">Lecture Notes</option>
+                  <option value="past_papers">Past Papers</option>
+                  <option value="revision_guide">Revision Guide</option>
+                  <option value="summary">Summary</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="noteType">File Type</label>
+                <select id="noteType" name="fileType" required>
+                  <option value="pdf">PDF</option>
+                  <option value="docx">DOCX</option>
+                  <option value="txt">TXT</option>
+                  <option value="jpg">JPG</option>
+                  <option value="png">PNG</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="notePrice">Price (Ksh)</label>
+                <input type="number" id="notePrice" name="price" value="50" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="noteSample">Sample Content</label>
+              <textarea id="noteSample" name="sampleContent" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="noteFull">Full Content</label>
+              <textarea id="noteFull" name="fullContent" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="purchase-btn">Upload Note</button>
+          </form>
+        </div>
+      </section>
+
+      <section class="seller-listings">
+        <div class="section-header">
+          <h2>Your Listings</h2>
+          <p>Manage your active notes, update details, or remove listings.</p>
+        </div>
+        <div id="sellerNotesGrid" class="notes-grid"></div>
+      </section>
+    </main>
+  </div>
+
+  <div id="editNoteModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <div class="modal-body">
+        <h2>Edit Note</h2>
+        <form id="editNoteForm">
+          <input type="hidden" id="editNoteId">
+          <div class="form-group">
+            <label for="editNoteTitle">Title</label>
+            <input type="text" id="editNoteTitle" name="title" required>
+          </div>
+          <div class="form-group">
+            <label for="editNoteDescription">Description</label>
+            <textarea id="editNoteDescription" name="description" rows="4" required></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="editNoteCourse">Course</label>
+              <input type="text" id="editNoteCourse" name="course" required>
+            </div>
+            <div class="form-group">
+              <label for="editNoteUnit">Unit</label>
+              <input type="text" id="editNoteUnit" name="unit" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="editNoteCategory">Category</label>
+              <select id="editNoteCategory" name="category" required>
+                <option value="lecture_notes">Lecture Notes</option>
+                <option value="past_papers">Past Papers</option>
+                <option value="revision_guide">Revision Guide</option>
+                <option value="summary">Summary</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="editNotePrice">Price (Ksh)</label>
+              <input type="number" id="editNotePrice" name="price" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="editNoteSample">Sample Content</label>
+            <textarea id="editNoteSample" name="sampleContent" rows="3" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="editNoteFull">Full Content</label>
+            <textarea id="editNoteFull" name="fullContent" rows="5" required></textarea>
+          </div>
+          <div class="form-row">
+            <label><input type="checkbox" id="editNoteActive" name="isActive"> Active</label>
+          </div>
+          <button type="submit" class="purchase-btn">Save Changes</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/seller-dashboard.js"></script>
+</body>
+</html>
