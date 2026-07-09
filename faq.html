@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - UniLink</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand h1 {
+            margin: 0;
+            color: #667eea;
+            font-size: 1.8rem;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .navbar-links a {
+            text-decoration: none;
+            color: #666;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navbar-links a:hover {
+            color: #667eea;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .faq-category {
+            margin-bottom: 50px;
+        }
+
+        .category-title {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+            color: #333;
+        }
+
+        .faq-item {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            user-select: none;
+            background: #f8f9fa;
+        }
+
+        .faq-question:hover {
+            background: #f0f0f0;
+        }
+
+        .faq-question.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .faq-question h4 {
+            margin: 0;
+            font-size: 1rem;
+            flex: 1;
+        }
+
+        .faq-toggle {
+            font-size: 1.3rem;
+            transition: transform 0.3s;
+        }
+
+        .faq-question.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 20px;
+            background: white;
+            display: none;
+            border-top: 1px solid #e0e0e0;
+            line-height: 1.8;
+            color: #666;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        .search-box {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .category-title {
+                font-size: 1.4rem;
+            }
+
+            .faq-question h4 {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-brand">
+                <h1><i class="fas fa-book"></i> UniLink</h1>
+            </div>
+            <div class="navbar-links">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+                <a href="how-it-works.html"><i class="fas fa-graduation-cap"></i> How It Works</a>
+                <a href="faq.html" style="color: #667eea; font-weight: 600;"><i class="fas fa-question-circle"></i> FAQ</a>
+                <a href="contact.html"><i class="fas fa-envelope"></i> Contact</a>
+                <a href="login.html" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1><i class="fas fa-question-circle"></i> Frequently Asked Questions</h1>
+            <p>Find answers to common questions about UniLink</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="search-box">
+            <input type="text" id="searchFAQ" placeholder="Search FAQ..." onkeyup="searchFAQ()">
+        </div>
+
+        <!-- Buyer FAQs -->
+        <div class="faq-category">
+            <h2 class="category-title"><i class="fas fa-shopping-bag"></i> Buyer Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h4>What is the activation fee?</h4>
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    The activation fee is a one-time 50 KES payment required to access the marketplace as a buyer or seller. This fee helps maintain platform quality and security.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h4>How long can I access purchased notes?</h4>
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    You have access to purchased notes for 30 days from the purchase date. During this period, you can download the notes up to 10 times. After expiration, you can purchase access again.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h4>What payment methods do you accept?</h4>
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    We accept M-Pesa and card payments. Both are processed securely and instantly. Your transaction is encrypted and protected.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h4>Can I get a refund if I'm not satisfied?</h4>
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    We offer refunds within 7 days if the notes don't match the description. Contact our support team with your purchase proof and reason for refund.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h4>How do I download my purchased notes?</h4>
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    After purchase, go to "My Purchases" or "Downloads" in your dashboard. Click the download button on any active purchase. You can download up to 10 times per purchase.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h4>Can I share purchased notes with friends?</h4>
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    No, purchased notes are for your personal use only. Sharing copyrighted content violates our terms. Each user must purchase their own copy.
+                </div>
+            </div>
+        </div>
+
+        <!-- Seller FAQs -->
+        <div class="faq-category">
+            <h2 class="category-title"><i class="fas fa-user-tie"></i> Seller Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h4>How do I become a seller?</h4>
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    Create an account, complete your profile, pay the 50 KES activation fee, and start uploading notes. Your account must be verified by our team before you can upload content.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h4>What format should my notes be in?</h4>
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    We accept PDF, DOCX, TXT, JPG, and PNG formats. Make sure your notes are clear, well-organized, and free of errors. Quality is important!
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h4>How much can I earn as a seller?</h4>
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    You keep 80% of the selling price. For example, if you sell notes for 100 KES, you earn 80 KES after our 20% commission.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h4>When will I receive my earnings?</h4>
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    Earnings are available after 30 days of a sale. You can withdraw to M-Pesa or bank account anytime. Minimum withdrawal is 100 KES.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h4>How long does content approval take?</h4>
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    Usually 24-48 hours. Our team reviews content for quality, accuracy, and compliance. You'll receive email notification once approved.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h4>What if my content is rejected?</h4>
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    You'll receive detailed feedback about why it was rejected. Fix the issues and resubmit. Common reasons include formatting issues, copyright concerns, or inaccurate content.
+                </div>
+            </div>
+        </div>
+
+        <!-- General FAQs -->
+        <div class="faq-category">
+            <h2 class="category-title"><i class="fas fa-info-circle"></i> General Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h4>Is my data secure on UniLink?</h4>
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    Yes, we use encryption and secure servers to protect your data. All payments are processed through secure gateways. We never share your information with third parties.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h4>How can I contact customer support?</h4>
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    Visit our Contact page or email support@unilink.ke. We typically respond within 24 hours. For urgent issues, call our support hotline.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h4>Do you have a mobile app?</h4>
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    Our website is fully responsive and works great on mobile devices. Native mobile apps for iOS and Android are coming soon!
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h4>What universities do you support?</h4>
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    UniLink supports all universities in Kenya and East Africa. You can specify your university during registration and find notes specific to your institution.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleAnswer(this)">
+                    <h4>How do you ensure content quality?</h4>
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-answer">
+                    We have a moderation team that reviews all content. Buyers can also rate and review notes. Poor-quality content is removed and sellers are warned.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 UniLink. All rights reserved. | <a href="#" style="color: #667eea; text-decoration: none;">Privacy Policy</a> | <a href="#" style="color: #667eea; text-decoration: none;">Terms of Service</a></p>
+    </footer>
+
+    <script>
+        function toggleAnswer(element) {
+            const question = element;
+            const answer = element.nextElementSibling;
+            
+            // Close all other answers
+            document.querySelectorAll('.faq-answer.active').forEach(a => {
+                if (a !== answer) {
+                    a.classList.remove('active');
+                    a.previousElementSibling.classList.remove('active');
+                }
+            });
+            
+            // Toggle current answer
+            question.classList.toggle('active');
+            answer.classList.toggle('active');
+        }
+
+        function searchFAQ() {
+            const searchTerm = document.getElementById('searchFAQ').value.toLowerCase();
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question h4').textContent.toLowerCase();
+                const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+                
+                if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

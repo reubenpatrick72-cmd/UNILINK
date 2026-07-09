@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - UniLink Admin</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-container {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .admin-sidebar {
+            width: 250px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            height: fit-content;
+            position: sticky;
+            top: 80px;
+        }
+
+        .admin-sidebar h3 {
+            margin: 0 0 15px 0;
+            font-size: 1rem;
+        }
+
+        .admin-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .admin-menu li {
+            margin-bottom: 5px;
+        }
+
+        .admin-menu a {
+            display: block;
+            padding: 10px 12px;
+            color: #666;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .admin-menu a:hover {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .admin-menu a.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .admin-main {
+            flex: 1;
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 10px 0;
+        }
+
+        .page-header p {
+            color: #666;
+            margin: 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border-left: 4px solid #667eea;
+        }
+
+        .stat-card.revenue {
+            border-left-color: #28a745;
+        }
+
+        .stat-card.users {
+            border-left-color: #667eea;
+        }
+
+        .stat-card.notes {
+            border-left-color: #ffc107;
+        }
+
+        .stat-card.sales {
+            border-left-color: #17a2b8;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .stat-change {
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        .stat-change.positive {
+            color: #28a745;
+        }
+
+        .stat-change.negative {
+            color: #f5576c;
+        }
+
+        .chart-section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+
+        .chart-section h3 {
+            margin: 0 0 20px 0;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 1.1rem;
+        }
+
+        .chart-placeholder {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 6px;
+            text-align: center;
+            color: #999;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .chart-placeholder i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #ddd;
+        }
+
+        .period-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .period-btn {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .period-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .period-btn:hover {
+            border-color: #667eea;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .metric-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .metric-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .metric-detail {
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .top-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .item-list {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .item-list h4 {
+            margin: 0 0 15px 0;
+            font-size: 1rem;
+        }
+
+        .list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.9rem;
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            flex: 1;
+            color: #333;
+        }
+
+        .item-value {
+            font-weight: 600;
+            color: #667eea;
+        }
+
+        .item-rank {
+            width: 30px;
+            height: 30px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-right: 10px;
+        }
+
+        @media (max-width: 968px) {
+            .admin-container {
+                flex-direction: column;
+            }
+
+            .admin-sidebar {
+                width: 100%;
+                position: static;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .top-items {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-placeholder {
+                min-height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1><i class="fas fa-crown"></i> UniLink Admin</h1>
+            </div>
+            <div class="navbar-links">
+                <span id="adminName" style="color: #333; margin-right: 20px;">Admin Panel</span>
+                <a href="#" id="logoutBtn" class="btn btn-secondary"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="admin-container">
+        <!-- Sidebar Menu -->
+        <div class="admin-sidebar">
+            <h3><i class="fas fa-tachometer-alt"></i> Admin Menu</h3>
+            <ul class="admin-menu">
+                <li><a href="../../pages/admin/admin-dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="moderation.html"><i class="fas fa-shield-alt"></i> Moderation</a></li>
+                <li><a href="users.html"><i class="fas fa-users"></i> Users</a></li>
+                <li><a href="transactions.html"><i class="fas fa-exchange-alt"></i> Transactions</a></li>
+                <li><a href="analytics.html" class="active"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="admin-main">
+            <div class="page-header">
+                <h1><i class="fas fa-chart-bar"></i> Platform Analytics</h1>
+                <p>Monitor platform performance and growth metrics</p>
+            </div>
+
+            <!-- Main Stats -->
+            <div class="stats-grid">
+                <div class="stat-card revenue">
+                    <div class="stat-label"><i class="fas fa-money-bill"></i> Total Revenue</div>
+                    <div class="stat-value" id="totalRevenue">0 KES</div>
+                    <div class="stat-change positive"><i class="fas fa-arrow-up"></i> +12.5% from last month</div>
+                </div>
+
+                <div class="stat-card users">
+                    <div class="stat-label"><i class="fas fa-users"></i> Total Users</div>
+                    <div class="stat-value" id="totalUsers">0</div>
+                    <div class="stat-change positive"><i class="fas fa-arrow-up"></i> +8.3% from last month</div>
+                </div>
+
+                <div class="stat-card notes">
+                    <div class="stat-label"><i class="fas fa-book"></i> Notes Published</div>
+                    <div class="stat-value" id="totalNotes">0</div>
+                    <div class="stat-change positive"><i class="fas fa-arrow-up"></i> +5.2% from last month</div>
+                </div>
+
+                <div class="stat-card sales">
+                    <div class="stat-label"><i class="fas fa-shopping-cart"></i> Total Sales</div>
+                    <div class="stat-value" id="totalSales">0</div>
+                    <div class="stat-change positive"><i class="fas fa-arrow-up"></i> +15.8% from last month</div>
+                </div>
+            </div>
+
+            <!-- Revenue Chart -->
+            <div class="chart-section">
+                <h3><i class="fas fa-chart-line"></i> Revenue Trend</h3>
+                <div class="period-selector">
+                    <button class="period-btn active" onclick="changePeriod('7days')">Last 7 Days</button>
+                    <button class="period-btn" onclick="changePeriod('30days')">Last 30 Days</button>
+                    <button class="period-btn" onclick="changePeriod('90days')">Last 90 Days</button>
+                    <button class="period-btn" onclick="changePeriod('year')">This Year</button>
+                </div>
+                <div class="chart-placeholder">
+                    <i class="fas fa-chart-line"></i>
+                    <p>Revenue chart will be displayed here</p>
+                </div>
+            </div>
+
+            <!-- Key Metrics -->
+            <div class="chart-section">
+                <h3><i class="fas fa-tachometer-alt"></i> Key Performance Indicators</h3>
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="metric-label">Average Order Value</div>
+                        <div class="metric-value" id="avgOrderValue">0 KES</div>
+                        <div class="metric-detail">Per transaction</div>
+                    </div>
+
+                    <div class="metric-box">
+                        <div class="metric-label">Active Sellers</div>
+                        <div class="metric-value" id="activeSellers">0</div>
+                        <div class="metric-detail">Uploaded in last 30 days</div>
+                    </div>
+
+                    <div class="metric-box">
+                        <div class="metric-label">Avg Rating</div>
+                        <div class="metric-value" id="avgRating">0</div>
+                        <div class="metric-detail">Out of 5</div>
+                    </div>
+
+                    <div class="metric-box">
+                        <div class="metric-label">Conversion Rate</div>
+                        <div class="metric-value" id="conversionRate">0%</div>
+                        <div class="metric-detail">Browsers to buyers</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Items -->
+            <div class="chart-section">
+                <h3><i class="fas fa-crown"></i> Top Performers</h3>
+                <div class="top-items">
+                    <!-- Top Notes -->
+                    <div class="item-list">
+                        <h4><i class="fas fa-book"></i> Top 5 Notes</h4>
+                        <div id="topNotesList">
+                            <div style="text-align: center; padding: 20px; color: #999;">
+                                <i class="fas fa-spinner fa-spin"></i> Loading...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Sellers -->
+                    <div class="item-list">
+                        <h4><i class="fas fa-user-tie"></i> Top 5 Sellers</h4>
+                        <div id="topSellersList">
+                            <div style="text-align: center; padding: 20px; color: #999;">
+                                <i class="fas fa-spinner fa-spin"></i> Loading...
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Buyers -->
+                    <div class="item-list">
+                        <h4><i class="fas fa-user"></i> Top 5 Buyers</h4>
+                        <div id="topBuyersList">
+                            <div style="text-align: center; padding: 20px; color: #999;">
+                                <i class="fas fa-spinner fa-spin"></i> Loading...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Growth Chart -->
+            <div class="chart-section">
+                <h3><i class="fas fa-users"></i> User Growth</h3>
+                <div class="chart-placeholder">
+                    <i class="fas fa-chart-area"></i>
+                    <p>User growth chart will be displayed here</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/utils.js"></script>
+    <script src="../../js/analytics-admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earnings - UniLink Seller</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .earnings-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .earnings-header {
+            margin-bottom: 30px;
+        }
+
+        .earnings-header h1 {
+            margin: 0 0 10px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 4px solid #667eea;
+        }
+
+        .stat-card.pending {
+            border-left-color: #ffc107;
+        }
+
+        .stat-card.available {
+            border-left-color: #28a745;
+        }
+
+        .stat-card.withdrawn {
+            border-left-color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .stat-detail {
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        .action-button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            transition: background 0.3s;
+            width: 100%;
+        }
+
+        .action-button:hover {
+            background: #5568d3;
+        }
+
+        .action-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            margin: 0 0 20px 0;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+            font-size: 1.3rem;
+        }
+
+        .withdrawal-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .withdrawal-info {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .withdrawal-amount {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .withdrawal-meta {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .withdrawal-status {
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-failed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .earnings-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .earnings-table thead {
+            background: #f8f9fa;
+        }
+
+        .earnings-table th {
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #666;
+            border-bottom: 2px solid #eee;
+        }
+
+        .earnings-table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+        }
+
+        .earnings-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .note-link {
+            color: #667eea;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .note-link:hover {
+            text-decoration: underline;
+        }
+
+        .amount-positive {
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 20px 0;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 2rem;
+            color: #ddd;
+            margin-bottom: 10px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            padding: 30px;
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+        }
+
+        .close-btn {
+            float: right;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-submit {
+            flex: 1;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-submit:hover {
+            background: #5568d3;
+        }
+
+        .btn-cancel {
+            flex: 1;
+            background: #f0f0f0;
+            color: #333;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-cancel:hover {
+            background: #e0e0e0;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pagination button.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .withdrawal-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .withdrawal-status {
+                width: 100%;
+                text-align: center;
+            }
+
+            .earnings-table {
+                font-size: 0.85rem;
+            }
+
+            .earnings-table th,
+            .earnings-table td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1><i class="fas fa-book"></i> UniLink Seller</h1>
+            </div>
+            <div class="navbar-links">
+                <a href="seller-dashboard.html" class="nav-link"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="uploads.html" class="nav-link"><i class="fas fa-cloud-upload-alt"></i> Upload Notes</a>
+                <a href="my-notes.html" class="nav-link"><i class="fas fa-list"></i> My Notes</a>
+                <a href="earnings.html" class="nav-link active"><i class="fas fa-wallet"></i> Earnings</a>
+                <a href="marketplace.html" class="nav-link"><i class="fas fa-store"></i> Marketplace</a>
+                <a href="#" id="logoutBtn" class="btn btn-secondary"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="earnings-container">
+        <div class="earnings-header">
+            <h1><i class="fas fa-wallet"></i> Earnings & Withdrawals</h1>
+            <p style="color: #666; margin: 5px 0 0 0;">Manage your sales earnings and request withdrawals</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card pending">
+                <div class="stat-label"><i class="fas fa-clock"></i> Pending Earnings</div>
+                <div class="stat-value" id="pendingEarnings">0 KES</div>
+                <div class="stat-detail">From last 30 days sales</div>
+            </div>
+
+            <div class="stat-card available">
+                <div class="stat-label"><i class="fas fa-check-circle"></i> Available Balance</div>
+                <div class="stat-value" id="availableBalance">0 KES</div>
+                <div class="stat-detail">Ready to withdraw</div>
+                <button class="action-button" onclick="openWithdrawalModal()">Withdraw Now</button>
+            </div>
+
+            <div class="stat-card withdrawn">
+                <div class="stat-label"><i class="fas fa-history"></i> Total Withdrawn</div>
+                <div class="stat-value" id="totalWithdrawn">0 KES</div>
+                <div class="stat-detail">All-time withdrawals</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-label"><i class="fas fa-shopping-cart"></i> Total Sales</div>
+                <div class="stat-value" id="totalSales">0</div>
+                <div class="stat-detail">Number of purchases</div>
+            </div>
+        </div>
+
+        <!-- Earnings Summary -->
+        <div class="section">
+            <h2><i class="fas fa-chart-line"></i> Earnings Summary</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 6px;">
+                    <div style="font-size: 0.85rem; color: #666; margin-bottom: 5px;">This Month</div>
+                    <div style="font-size: 1.5rem; font-weight: 700;" id="monthEarnings">0 KES</div>
+                </div>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 6px;">
+                    <div style="font-size: 0.85rem; color: #666; margin-bottom: 5px;">Last Month</div>
+                    <div style="font-size: 1.5rem; font-weight: 700;" id="lastMonthEarnings">0 KES</div>
+                </div>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 6px;">
+                    <div style="font-size: 0.85rem; color: #666; margin-bottom: 5px;">All Time</div>
+                    <div style="font-size: 1.5rem; font-weight: 700;" id="allTimeEarnings">0 KES</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Withdrawals -->
+        <div class="section">
+            <h2><i class="fas fa-arrow-down"></i> Withdrawal History</h2>
+            <div id="withdrawalsList">
+                <div class="empty-state">
+                    <i class="fas fa-download"></i>
+                    <p>No withdrawals yet</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Sales -->
+        <div class="section">
+            <h2><i class="fas fa-receipt"></i> Recent Sales</h2>
+            <div id="salesTableContainer">
+                <div class="empty-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading sales data...</p>
+                </div>
+            </div>
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </div>
+
+    <!-- Withdrawal Modal -->
+    <div class="modal" id="withdrawalModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close-btn" onclick="closeWithdrawalModal()">&times;</button>
+                <h2>Request Withdrawal</h2>
+            </div>
+            <form id="withdrawalForm">
+                <div class="form-group">
+                    <label>Available Balance</label>
+                    <input type="text" id="availableBalanceDisplay" readonly style="background: #f0f0f0;">
+                </div>
+
+                <div class="form-group">
+                    <label>Withdrawal Amount (KES) *</label>
+                    <input type="number" id="withdrawalAmount" placeholder="Enter amount" min="100" required>
+                    <small style="color: #666;">Minimum: 100 KES</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Payment Method *</label>
+                    <select id="paymentMethod" required>
+                        <option value="">Select method</option>
+                        <option value="mpesa">M-Pesa</option>
+                        <option value="bank">Bank Transfer</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label id="paymentDetailLabel">M-Pesa Phone Number *</label>
+                    <input type="text" id="paymentDetail" placeholder="e.g., 0700000000" required>
+                </div>
+
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span>Withdrawal Amount:</span>
+                        <strong id="displayAmount">0 KES</strong>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                        <span>Processing Fee (2%):</span>
+                        <strong id="displayFee">0 KES</strong>
+                    </div>
+                    <div style="border-top: 1px solid #ddd; padding-top: 10px; display: flex; justify-content: space-between;">
+                        <span>You Receive:</span>
+                        <strong style="color: #28a745; font-size: 1.1rem;" id="displayNet">0 KES</strong>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn-submit">Request Withdrawal</button>
+                    <button type="button" class="btn-cancel" onclick="closeWithdrawalModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../../js/utils.js"></script>
+    <script src="../../js/earnings.js"></script>
+</body>
+</html>

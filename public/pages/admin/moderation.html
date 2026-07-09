@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Moderation - UniLink Admin</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-container {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .admin-sidebar {
+            width: 250px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            height: fit-content;
+            position: sticky;
+            top: 80px;
+        }
+
+        .admin-sidebar h3 {
+            margin: 0 0 15px 0;
+            font-size: 1rem;
+        }
+
+        .admin-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .admin-menu li {
+            margin-bottom: 5px;
+        }
+
+        .admin-menu a {
+            display: block;
+            padding: 10px 12px;
+            color: #666;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .admin-menu a:hover {
+            background: #e0e0e0;
+            color: #333;
+        }
+
+        .admin-menu a.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .admin-main {
+            flex: 1;
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 10px 0;
+        }
+
+        .page-header p {
+            color: #666;
+            margin: 0;
+        }
+
+        .filters-bar {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .filter-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-item input,
+        .filter-item select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .content-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 15px;
+        }
+
+        .content-title {
+            flex: 1;
+        }
+
+        .content-title h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.1rem;
+        }
+
+        .seller-info {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .seller-info i {
+            color: #667eea;
+        }
+
+        .content-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: #666;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .meta-tag {
+            display: inline-block;
+            background: #f0f0f0;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .content-preview {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #666;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .moderation-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-approve {
+            background: #28a745;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-approve:hover {
+            background: #218838;
+        }
+
+        .btn-reject {
+            background: #f5576c;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-reject:hover {
+            background: #e53651;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 2rem;
+            color: #ddd;
+            margin-bottom: 10px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pagination button.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 8px;
+            max-width: 500px;
+            width: 90%;
+            padding: 30px;
+        }
+
+        .modal-header h2 {
+            margin: 0 0 20px 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        @media (max-width: 968px) {
+            .admin-container {
+                flex-direction: column;
+            }
+
+            .admin-sidebar {
+                width: 100%;
+                position: static;
+            }
+
+            .filters-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .filter-item input,
+            .filter-item select {
+                width: 100%;
+            }
+
+            .moderation-actions {
+                flex-direction: column;
+            }
+
+            .btn-approve, .btn-reject {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1><i class="fas fa-crown"></i> UniLink Admin</h1>
+            </div>
+            <div class="navbar-links">
+                <span id="adminName" style="color: #333; margin-right: 20px;">Admin Panel</span>
+                <a href="#" id="logoutBtn" class="btn btn-secondary"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="admin-container">
+        <!-- Sidebar Menu -->
+        <div class="admin-sidebar">
+            <h3><i class="fas fa-tachometer-alt"></i> Admin Menu</h3>
+            <ul class="admin-menu">
+                <li><a href="../../pages/admin/admin-dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="moderation.html" class="active"><i class="fas fa-shield-alt"></i> Moderation</a></li>
+                <li><a href="users.html"><i class="fas fa-users"></i> Users</a></li>
+                <li><a href="transactions.html"><i class="fas fa-exchange-alt"></i> Transactions</a></li>
+                <li><a href="analytics.html"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="admin-main">
+            <div class="page-header">
+                <h1><i class="fas fa-shield-alt"></i> Content Moderation</h1>
+                <p>Review and approve/reject submitted notes</p>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-value" id="pendingCount">0</div>
+                    <div class="stat-label">Pending Review</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="approvedCount">0</div>
+                    <div class="stat-label">Approved</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value" id="rejectedCount">0</div>
+                    <div class="stat-label">Rejected</div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-bar">
+                <div class="filter-item">
+                    <input type="text" id="searchInput" placeholder="Search by title or seller...">
+                </div>
+                <div class="filter-item">
+                    <select id="statusFilter">
+                        <option value="pending">Pending</option>
+                        <option value="all">All Status</option>
+                        <option value="approved">Approved</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                </div>
+                <div class="filter-item">
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="lecture_notes">Lecture Notes</option>
+                        <option value="past_papers">Past Papers</option>
+                        <option value="revision_guide">Revision Guide</option>
+                        <option value="summary">Summary</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Content List -->
+            <div id="contentList">
+                <div class="empty-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading pending content...</p>
+                </div>
+            </div>
+
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </div>
+
+    <!-- Rejection Modal -->
+    <div class="modal" id="rejectionModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Reject Content</h2>
+            </div>
+            <form id="rejectionForm">
+                <div class="form-group">
+                    <label>Reason for Rejection *</label>
+                    <textarea id="rejectionReason" placeholder="Provide a detailed reason..." required></textarea>
+                </div>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+                    <p style="margin: 0; font-size: 0.9rem; color: #666;">
+                        The seller will receive an email with this feedback. Be constructive and helpful.
+                    </p>
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn-reject" style="flex: 1; margin: 0;">
+                        <i class="fas fa-times"></i> Confirm Rejection
+                    </button>
+                    <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeRejectionModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../../js/utils.js"></script>
+    <script src="../../js/moderation.js"></script>
+</body>
+</html>

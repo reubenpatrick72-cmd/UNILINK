@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Purchases - UniLink</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .purchases-container {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .purchases-sidebar {
+            width: 250px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            height: fit-content;
+            position: sticky;
+            top: 80px;
+        }
+
+        .purchases-main {
+            flex: 1;
+        }
+
+        .purchase-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .purchase-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .purchase-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 15px;
+        }
+
+        .purchase-title {
+            flex: 1;
+        }
+
+        .purchase-title h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.1rem;
+        }
+
+        .purchase-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .purchase-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .purchase-status {
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-expired {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .purchase-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-download {
+            background: #667eea;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .btn-download:hover {
+            background: #5568d3;
+        }
+
+        .btn-download:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-review {
+            background: #28a745;
+            color: white;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .btn-review:hover {
+            background: #218838;
+        }
+
+        .access-info {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 15px;
+        }
+
+        .access-info strong {
+            color: #333;
+        }
+
+        .filter-group {
+            margin-bottom: 20px;
+        }
+
+        .filter-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .filter-group select, .filter-group input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .sort-buttons {
+            display: flex;
+            gap: 8px;
+            flex-direction: column;
+        }
+
+        .sort-btn {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        .sort-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 15px;
+        }
+
+        .empty-state p {
+            margin: 0;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .pagination button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .pagination button.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .pagination button:hover {
+            border-color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .purchases-container {
+                flex-direction: column;
+            }
+
+            .purchases-sidebar {
+                width: 100%;
+                position: static;
+            }
+
+            .purchase-header {
+                flex-direction: column;
+            }
+
+            .purchase-actions {
+                flex-direction: column;
+            }
+
+            .btn-download, .btn-review {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-brand">
+                <h1><i class="fas fa-book"></i> UniLink</h1>
+            </div>
+            <div class="navbar-links">
+                <a href="dashboard.html" class="nav-link"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="marketplace.html" class="nav-link"><i class="fas fa-store"></i> Marketplace</a>
+                <a href="purchases.html" class="nav-link active"><i class="fas fa-shopping-bag"></i> My Purchases</a>
+                <a href="downloads.html" class="nav-link"><i class="fas fa-download"></i> Downloads</a>
+                <a href="seller-dashboard.html" class="nav-link"><i class="fas fa-user-tie"></i> Sell Notes</a>
+                <a href="#" id="logoutBtn" class="btn btn-secondary"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="purchases-container">
+        <!-- Sidebar Filters -->
+        <div class="purchases-sidebar">
+            <h3><i class="fas fa-filter"></i> Filters</h3>
+            
+            <div class="filter-group">
+                <label>Search Purchases</label>
+                <input type="text" id="searchInput" placeholder="Note title...">
+            </div>
+
+            <div class="filter-group">
+                <label>Status</label>
+                <select id="statusFilter">
+                    <option value="all">All Purchases</option>
+                    <option value="active">Active Access</option>
+                    <option value="expired">Expired</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Sort By</label>
+                <div class="sort-buttons">
+                    <button class="sort-btn active" data-sort="newest"><i class="fas fa-calendar"></i> Newest</button>
+                    <button class="sort-btn" data-sort="oldest"><i class="fas fa-calendar"></i> Oldest</button>
+                    <button class="sort-btn" data-sort="price-high"><i class="fas fa-money-bill"></i> Price: High</button>
+                    <button class="sort-btn" data-sort="price-low"><i class="fas fa-money-bill"></i> Price: Low</button>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="clearFilters()">
+                <i class="fas fa-redo"></i> Clear Filters
+            </button>
+        </div>
+
+        <!-- Purchases List -->
+        <div class="purchases-main">
+            <div style="margin-bottom: 20px;">
+                <h2><i class="fas fa-shopping-bag"></i> My Purchases</h2>
+                <p id="purchasesCount" style="color: #666; margin: 0;">Loading...</p>
+            </div>
+
+            <div id="purchasesList">
+                <div class="empty-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Loading your purchases...</p>
+                </div>
+            </div>
+
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </div>
+
+    <!-- Review Modal -->
+    <div class="modal" id="reviewModal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2>Leave a Review</h2>
+                <button class="close-btn" onclick="closeModal('reviewModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="reviewNoteInfo"></div>
+                <form id="reviewForm" style="margin-top: 20px;">
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 10px; font-weight: 600;">Overall Rating</label>
+                        <div style="display: flex; gap: 10px;">
+                            <input type="radio" name="rating" value="1" id="rating1">
+                            <label for="rating1" style="margin: 0; cursor: pointer;">⭐</label>
+                            <input type="radio" name="rating" value="2" id="rating2">
+                            <label for="rating2" style="margin: 0; cursor: pointer;">⭐⭐</label>
+                            <input type="radio" name="rating" value="3" id="rating3">
+                            <label for="rating3" style="margin: 0; cursor: pointer;">⭐⭐⭐</label>
+                            <input type="radio" name="rating" value="4" id="rating4">
+                            <label for="rating4" style="margin: 0; cursor: pointer;">⭐⭐⭐⭐</label>
+                            <input type="radio" name="rating" value="5" id="rating5">
+                            <label for="rating5" style="margin: 0; cursor: pointer;">⭐⭐⭐⭐⭐</label>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600;">Aspect Ratings</label>
+                        <div style="background: #f8f9fa; padding: 15px; border-radius: 6px;">
+                            <div style="margin-bottom: 12px;">
+                                <label style="display: block; margin-bottom: 5px; font-size: 0.9rem;">Accuracy</label>
+                                <input type="range" name="accuracy" min="1" max="5" value="3" style="width: 100%;">
+                            </div>
+                            <div style="margin-bottom: 12px;">
+                                <label style="display: block; margin-bottom: 5px; font-size: 0.9rem;">Completeness</label>
+                                <input type="range" name="completeness" min="1" max="5" value="3" style="width: 100%;">
+                            </div>
+                            <div style="margin-bottom: 12px;">
+                                <label style="display: block; margin-bottom: 5px; font-size: 0.9rem;">Clarity</label>
+                                <input type="range" name="clarity" min="1" max="5" value="3" style="width: 100%;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; font-size: 0.9rem;">Relevance</label>
+                                <input type="range" name="relevance" min="1" max="5" value="3" style="width: 100%;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600;">Title</label>
+                        <input type="text" name="title" placeholder="e.g., Excellent notes!" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <label style="display: block; margin-bottom: 8px; font-weight: 600;">Review Comment</label>
+                        <textarea name="comment" placeholder="Share your thoughts..." rows="4" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-family: inherit;"></textarea>
+                    </div>
+
+                    <div style="display: flex; gap: 10px;">
+                        <button type="submit" class="btn btn-primary" style="flex: 1;">Submit Review</button>
+                        <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeModal('reviewModal')">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/utils.js"></script>
+    <script src="../../js/purchases.js"></script>
+</body>
+</html>

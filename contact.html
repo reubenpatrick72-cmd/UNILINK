@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - UniLink</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand h1 {
+            margin: 0;
+            color: #667eea;
+            font-size: 1.8rem;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .navbar-links a {
+            text-decoration: none;
+            color: #666;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .navbar-links a:hover {
+            color: #667eea;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #5568d3;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .contact-info {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .contact-info h3 {
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-info i {
+            color: #667eea;
+            font-size: 1.5rem;
+        }
+
+        .contact-item {
+            margin-bottom: 20px;
+        }
+
+        .contact-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .contact-item label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #666;
+        }
+
+        .contact-item p {
+            margin: 0;
+            color: #333;
+        }
+
+        .contact-item a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+        }
+
+        .contact-form-section {
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .contact-form-section h2 {
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn-submit {
+            background: #667eea;
+            color: white;
+            padding: 14px 40px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: #5568d3;
+        }
+
+        .btn-submit:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            display: block;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            display: block;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+        }
+
+        .social-links a {
+            width: 50px;
+            height: 50px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 1.2rem;
+        }
+
+        .social-links a:hover {
+            background: #5568d3;
+            transform: translateY(-3px);
+        }
+
+        .faq-cta {
+            background: #f8f9fa;
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .faq-cta h3 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .faq-cta p {
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .contact-form-section {
+                padding: 20px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-content">
+            <div class="navbar-brand">
+                <h1><i class="fas fa-book"></i> UniLink</h1>
+            </div>
+            <div class="navbar-links">
+                <a href="index.html"><i class="fas fa-home"></i> Home</a>
+                <a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+                <a href="how-it-works.html"><i class="fas fa-graduation-cap"></i> How It Works</a>
+                <a href="faq.html"><i class="fas fa-question-circle"></i> FAQ</a>
+                <a href="contact.html" style="color: #667eea; font-weight: 600;"><i class="fas fa-envelope"></i> Contact</a>
+                <a href="login.html" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1><i class="fas fa-envelope"></i> Get In Touch</h1>
+            <p>Have questions? We're here to help!</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Contact Information -->
+        <div class="contact-content">
+            <div class="contact-info">
+                <h3><i class="fas fa-envelope"></i> Email</h3>
+                <div class="contact-item">
+                    <label>General Inquiries</label>
+                    <p><a href="mailto:info@unilink.ke">info@unilink.ke</a></p>
+                </div>
+                <div class="contact-item">
+                    <label>Support</label>
+                    <p><a href="mailto:support@unilink.ke">support@unilink.ke</a></p>
+                </div>
+                <div class="contact-item">
+                    <label>Business Partnerships</label>
+                    <p><a href="mailto:business@unilink.ke">business@unilink.ke</a></p>
+                </div>
+            </div>
+
+            <div class="contact-info">
+                <h3><i class="fas fa-phone"></i> Phone</h3>
+                <div class="contact-item">
+                    <label>Support Hotline</label>
+                    <p><a href="tel:+254700000000">+254 700 000 000</a></p>
+                </div>
+                <div class="contact-item">
+                    <label>Office Hours</label>
+                    <p>Monday - Friday: 9 AM - 6 PM EAT<br>Saturday: 10 AM - 2 PM EAT<br>Sunday: Closed</p>
+                </div>
+                <div class="contact-item">
+                    <label>Response Time</label>
+                    <p>Usually within 2-4 hours during business hours</p>
+                </div>
+            </div>
+
+            <div class="contact-info">
+                <h3><i class="fas fa-map-marker-alt"></i> Office Location</h3>
+                <div class="contact-item">
+                    <label>Address</label>
+                    <p>Innovation Hub, 5th Floor<br>Nairobi, Kenya</p>
+                </div>
+                <div class="contact-item">
+                    <label>Services</label>
+                    <p>Customer Support<br>Account Inquiries<br>Seller Support</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact-form-section">
+            <h2><i class="fas fa-pencil-alt"></i> Send us a Message</h2>
+            
+            <div id="successMessage" class="message success">
+                <i class="fas fa-check-circle"></i> Thank you for contacting us! We'll get back to you soon.
+            </div>
+            <div id="errorMessage" class="message error"></div>
+
+            <form id="contactForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" placeholder="Your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+254 700 000 000">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject *</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">Select a subject</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="support">Technical Support</option>
+                            <option value="payment">Payment Issue</option>
+                            <option value="content">Content Problem</option>
+                            <option value="seller">Seller Account</option>
+                            <option value="feedback">Feedback</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Message *</label>
+                    <textarea id="message" name="message" placeholder="Please describe your inquiry or issue..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" name="newsletter" id="newsletter">
+                        <span>Subscribe to our newsletter for updates and announcements</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+            </form>
+
+            <!-- Social Links -->
+            <div style="margin-top: 40px; padding-top: 40px; border-top: 1px solid #eee;">
+                <h4 style="margin-bottom: 20px;">Follow Us On Social Media</h4>
+                <div class="social-links">
+                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- FAQ CTA -->
+        <div class="faq-cta">
+            <h3>Didn't find what you're looking for?</h3>
+            <p>Check out our FAQ page for quick answers to common questions</p>
+            <a href="faq.html" class="btn btn-primary">
+                <i class="fas fa-question-circle"></i> View FAQ
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 UniLink. All rights reserved. | <a href="#" style="color: #667eea; text-decoration: none;">Privacy Policy</a> | <a href="#" style="color: #667eea; text-decoration: none;">Terms of Service</a></p>
+    </footer>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                // For now, just show success message
+                // In production, this would send to backend
+                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById('contactForm').reset();
+                
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 5000);
+            } catch (error) {
+                document.getElementById('errorMessage').textContent = 'Error sending message. Please try again.';
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
