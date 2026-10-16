@@ -11,17 +11,6 @@ A peer-to-peer marketplace where university students buy and sell high-quality s
 
 I've strategically pivoted from an online business training platform to a student notes marketplace. This decision came after careful analysis of market dynamics and student needs.
 
-### Why I Changed Direction
-
-**Original Model Issues:**
-- Oversaturated market with thousands of similar courses
-- Low trust - students skeptical of "get rich quick" content
-- High content creation burden requiring constant video production
-- One-time payment model with limited recurring revenue
-- Generic content not specific to student curriculum needs
-- Free alternatives readily available (YouTube, free courses)
-- Significant upfront investment required before earning
-
 **New Model Advantages:**
 - Solves real problem: Students need notes for their specific courses
 - Proven demand: Students already share notes informally
@@ -31,19 +20,7 @@ I've strategically pivoted from an online business training platform to a studen
 - Low startup costs: PDF hosting is inexpensive
 - Fast validation: Can test at one university within weeks
 - Network effects: More sellers attract more buyers
-- Scalable: Transaction-based revenue grows with users
-
-### What I Removed and Why
-
-| Removed Feature | Reason |
-|----------------|---------|
-| Video tutorials | Expensive hosting, high bandwidth costs, difficult to monetize |
-| Amazon FBA/Shopify training | Saturated market, low trust, requires constant content creation |
-| Tech consultancy services | Not scalable, trades time for money, distracts from platform |
-| Website building services | Wrong business model - we're a platform, not an agency |
-| Self-learning courses | Too broad, competes with established platforms without differentiation |
-
-*These features can be reconsidered in Version 2.0+ if the marketplace succeeds first.*
+- Scalable: Transaction-based revenue grows with users.
 
 ## What UniLink Does
 
@@ -201,7 +178,7 @@ Row Level Security (RLS) ensures:
 
 **CRITICAL: Complete this before building**
 
-### Week 1:(WEE REUBEN HII NI KAZI YAKO) Student Validation
+### Week 1: Student Validation
 - Interview 20+ students from target university
 - Confirm willingness to pay Ksh 50-200 for quality notes
 - Understand current study material acquisition methods
@@ -273,7 +250,7 @@ Row Level Security (RLS) ensures:
 
 ### Version 1.0 - MVP (4-6 weeks)
 
-**Backend (HII NI YANGU):**
+**Backend 
 - Supabase project setup and configuration
 - Database schema design and RLS policies
 - Storage buckets and file policies
@@ -281,7 +258,7 @@ Row Level Security (RLS) ensures:
 - Database triggers for stats updates
 - API documentation
 
-**Frontend (REUBEN HII NI KAZI YAKE PIA):**
+**Frontend 
 - Landing page
 - Authentication pages (login/register)
 - Marketplace browse and search
@@ -319,7 +296,7 @@ Row Level Security (RLS) ensures:
 - Supabase CLI (for Edge Functions)
 - Node.js (for frontend tooling)
 
-### Setup Steps (NIWACHIE YENYE HUELEWI)
+### Setup Steps 
 
 **Create Supabase Project**
 1. Sign up at supabase.com
@@ -399,11 +376,11 @@ Row Level Security (RLS) ensures:
 ## Support & Contact
 
 For technical issues or questions:
-- Email: UTAJAZA HAPA
+- Email: jasonamir21@gmail.com
 - Documentation: [unilink-docs]
 
 For business inquiries:
-- Email: UTAJAZA HAPA
+- Email: jasonamir21@gmail.com
 
 ## License
 
