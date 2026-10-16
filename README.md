@@ -380,7 +380,7 @@ For technical issues or questions:
 - Documentation: [unilink-docs]
 
 For business inquiries:
-- Email: jasonamir21@gmail.com
+- Email: reubenpatrick72@gmail.com
 
 ## License
 
