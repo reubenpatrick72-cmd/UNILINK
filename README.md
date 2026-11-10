@@ -1,4 +1,4 @@
-# UniLink - Student Notes Marketplace (soma hizi vitu zote mzee)
+# UniLink - Student Notes Marketplace 
  
 A peer-to-peer marketplace where university students buy and sell high-quality study notes, past papers, and exam preparation materials.
 
